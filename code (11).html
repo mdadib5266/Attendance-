@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance App Mockup</title>
+    <style>
+        /* Basic Reset & Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        #app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        #top-nav {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #top-nav .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        #top-nav .menu-icon {
+            font-size: 1.8em;
+            cursor: pointer;
+            display: none; /* Hidden by default, shown on smaller screens */
+        }
+
+        #top-nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        #top-nav ul li {
+            margin-left: 20px;
+        }
+
+        #top-nav ul li a, #top-nav ul li button {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        #top-nav ul li a.active, #top-nav ul li button.active {
+            background-color: #2980b9;
+        }
+
+        #top-nav ul li a:hover, #top-nav ul li button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Views (Pages) */
+        .view {
+            display: none; /* Hidden by default */
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .view.active-view {
+            display: block;
+        }
+
+        /* Common Elements */
+        h1, h2, h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button.secondary {
+            background-color: #95a5a6;
+        }
+        button.secondary:hover {
+            background-color: #7f8c8d;
+        }
+        button.danger {
+            background-color: #e74c3c;
+        }
+        button.danger:hover {
+            background-color: #c0392b;
+        }
+        button.success {
+            background-color: #2ecc71;
+        }
+        button.success:hover {
+            background-color: #27ae60;
+        }
+
+
+        input[type="text"], input[type="email"], input[type="password"], input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .card h3 { margin-top: 0; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e9ecef;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #top-nav .menu-icon {
+                display: block;
+            }
+            #top-nav ul {
+                display: none; /* Hidden by default */
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Adjust based on nav height */
+                right: 20px;
+                background-color: #3498db;
+                border-radius: 0 0 5px 5px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+                z-index: 1000;
+            }
+            #top-nav ul.active {
+                display: flex;
+            }
+            #top-nav ul li {
+                margin: 0;
+                width: 100%;
+            }
+            #top-nav ul li a, #top-nav ul li button {
+                display: block;
+                padding: 12px 20px;
+                border-bottom: 1px solid #2980b9;
+                width: 100%;
+                text-align: left;
+            }
+            #top-nav ul li:last-child a, #top-nav ul li:last-child button {
+                border-bottom: none;
+            }
+        }
+
+        /* Specific View Styles */
+        #home-view .actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+        #home-view .actions button {
+            margin: 0 10px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+        }
+
+        #register-choice-view .choice-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        #register-choice-view .choice-buttons button {
+            padding: 20px 30px;
+            font-size: 1.2em;
+            width: 40%;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .dashboard-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .dashboard-card h3 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .dashboard-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .dashboard-card ul li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .dashboard-card ul li:last-child {
+            border-bottom: none;
+        }
+        .status-present { color: green; font-weight: bold; }
+        .status-absent { color: red; font-weight: bold; }
+        .status-open { color: orange; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <nav id="top-nav">
+            <div class="logo">AttendEase</div>
+            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+            <ul id="nav-links">
+                <!-- Links will be dynamically populated by JS -->
+            </ul>
+        </nav>
+
+        <!-- Home View (Logged Out) -->
+        <div id="home-view" class="view">
+            <h1>Welcome to AttendEase!</h1>
+            <p>Simplified attendance tracking for modern classrooms. Please log in or sign up to continue.</p>
+            <div class="actions">
+                <button onclick="navigateTo('login-view')">Log In</button>
+                <button class="secondary" onclick="navigateTo('register-choice-view')">Sign Up</button>
+            </div>
+        </div>
+
+        <!-- Login View -->
+        <div id="login-view" class="view">
+            <h1>Log In</h1>
+            <div class="form-group">
+                <label for="login-email">Email Address</label>
+                <input type="email" id="login-email" placeholder="user@example.com">
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Your password">
+            </div>
+            <button onclick="handleLogin()">Log In</button>
+            <p style="margin-top:15px;">Don't have an account? <a href="#" onclick="navigateTo('register-choice-view'); return false;">Sign Up</a></p>
+            <p>
+                <em>Mock Login:</em><br>
+                Teacher: email <code>teacher@example.com</code>, pass <code>teacher123</code><br>
+                Student: email <code>student@example.com</code>, pass <code>student123</code>
+            </p>
+        </div>
+
+        <!-- Registration Choice View -->
+        <div id="register-choice-view" class="view">
+            <h1>Create Your Account</h1>
+            <p>How would you like to register?</p>
+            <div class="choice-buttons">
+                <button onclick="navigateTo('teacher-register-view')">I am a Teacher</button>
+                <button onclick="navigateTo('student-register-view')">I am a Student</button>
+            </div>
+            <p style="margin-top:15px;">Already have an account? <a href="#" onclick="navigateTo('login-view'); return false;">Log In</a></p>
+        </div>
+
+        <!-- Teacher Registration View -->
+        <div id="teacher-register-view" class="view">
+            <h1>Teacher Registration</h1>
+            <div class="form-group">
+                <label for="teacher-name">Full Name</label>
+                <input type="text" id="teacher-name" placeholder="Dr. Jane Doe">
+            </div>
+            <div class="form-group">
+                <label for="teacher-email">Email Address</label>
+                <input type="email" id="teacher-email" placeholder="jane.doe@school.edu">
+            </div>
+            <div class="form-group">
+                <label for="teacher-password">Password</label>
+                <input type="password" id="teacher-password">
+            </div>
+            <div class="form-group">
+                <label for="teacher-id">Teacher ID (Optional)</label>
+                <input type="text" id="teacher-id" placeholder="T-1001">
+            </div>
+            <button onclick="handleRegister('teacher')">Register as Teacher</button>
+            <p style="margin-top:15px;">Already have an account? <a href="#" onclick="navigateTo('login-view'); return false;">Log In</a></p>
+        </div>
+
+        <!-- Student Registration View -->
+        <div id="student-register-view" class="view">
+            <h1>Student Registration</h1>
+            <div class="form-group">
+                <label for="student-name">Full Name</label>
+                <input type="text" id="student-name" placeholder="John Smith">
+            </div>
+            <div class="form-group">
+                <label for="student-email">Email Address</label>
+                <input type="email" id="student-email" placeholder="john.smith@example.com">
+            </div>
+            <div class="form-group">
+                <label for="student-password">Password</label>
+                <input type="password" id="student-password">
+            </div>
+            <div class="form-group">
+                <label for="student-id">Student ID</label>
+                <input type="text" id="student-id" placeholder="S-2002">
+            </div>
+            <button onclick="handleRegister('student')">Register as Student</button>
+            <p style="margin-top:15px;">Already have an account? <a href="#" onclick="navigateTo('login-view'); return false;">Log In</a></p>
+        </div>
+
+        <!-- Teacher Dashboard View -->
+        <div id="teacher-dashboard-view" class="view">
+            <h1>Teacher Dashboard</h1>
+            <p>Welcome, <span id="teacher-name-display">Teacher</span>!</p>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Today's Classes</h3>
+                    <ul id="teacher-today-classes">
+                        <li>CS101 - Intro to CS (9:00 AM) <button class="small-btn" onclick="navigateToClass('CS101')">Manage</button></li>
+                        <li>MATH202 - Calculus II (11:00 AM) <button class="small-btn" onclick="navigateToClass('MATH202')">Manage</button></li>
+                    </ul>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Quick Actions</h3>
+                    <button onclick="alert('Mock: Create New Class')">Create New Class</button><br><br>
+                    <button onclick="navigateTo('teacher-reports-view')">View Attendance Reports</button>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Recent Activity</h3>
+                    <p id="teacher-activity-log">No recent activity.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard View -->
+        <div id="student-dashboard-view" class="view">
+            <h1>Student Dashboard</h1>
+            <p>Welcome, <span id="student-name-display">Student</span>!</p>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Today's Classes</h3>
+                    <ul id="student-today-classes">
+                        <li>CS101 - Intro to CS (9:00 AM) - <span class="status-open" id="cs101-status">Self-attendance open!</span>
+                            <button class="small-btn success" id="cs101-submit-btn" onclick="submitAttendance('CS101')">Mark Present</button>
+                        </li>
+                        <li>MATH202 - Calculus II (11:00 AM) - <span id="math202-status">Not yet open</span>
+                             <button class="small-btn" id="math202-submit-btn" style="display:none;" onclick="submitAttendance('MATH202')">Mark Present</button>
+                        </li>
+                    </ul>
+                </div>
+                 <div class="dashboard-card">
+                    <h3>My Attendance Summary</h3>
+                    <p>Overall Attendance: 95% (Mock Data)</p>
+                    <button onclick="navigateTo('student-attendance-history-view')">View Full History</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher's Class View -->
+        <div id="teacher-class-view" class="view">
+            <h1 id="class-view-name">Class Details</h1>
+            <button onclick="navigateTo('teacher-dashboard-view')">&larr; Back to Dashboard</button>
+            <hr style="margin: 15px 0;">
+
+            <h3>Self-Attendance Control for <span id="class-view-name-sub"></span></h3>
+            <div class="form-group">
+                <label for="self-attendance-toggle">Enable Student Self-Attendance:</label>
+                <select id="self-attendance-toggle" onchange="updateSelfAttendanceStatus()">
+                    <option value="disabled">Disabled</option>
+                    <option value="enabled_15min">Enabled (15 mins)</option>
+                    <option value="enabled_manual">Enabled (Until Manual Stop)</option>
+                </select>
+            </div>
+            <p>Status: <strong id="self-attendance-status-display">Disabled</strong></p>
+            <button id="self-attendance-action-btn" onclick="toggleSelfAttendanceAction()">Start Self-Attendance</button>
+
+            <h3>Enrolled Students & Manual Attendance (Mock for Today)</h3>
+            <table id="class-students-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Student ID</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Student rows will be added by JS -->
+                </tbody>
+            </table>
+            <button onclick="alert('Mock: Save Manual Attendance Changes')">Save Manual Changes</button>
+        </div>
+        
+        <!-- Student Attendance Submission View (Simplified within dashboard for this mock) -->
+        <!-- No separate view, interaction handled in Student Dashboard -->
+
+        <!-- Profile View (Generic) -->
+        <div id="profile-view" class="view">
+            <h1>My Profile</h1>
+            <div class="form-group">
+                <label>Name:</label>
+                <p id="profile-name">User Name</p>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <p id="profile-email">user@example.com</p>
+            </div>
+            <div class="form-group" id="profile-role-specific-id-group">
+                <label id="profile-role-specific-id-label">ID:</label>
+                <p id="profile-role-specific-id">N/A</p>
+            </div>
+            <button onclick="alert('Mock: Edit Profile functionality would go here.')">Edit Profile</button>
+            <button class="secondary" onclick="alert('Mock: Change Password functionality.')">Change Password</button>
+        </div>
+
+        <!-- Teacher Reports View (Placeholder) -->
+        <div id="teacher-reports-view" class.view">
+            <h1>Attendance Reports</h1>
+            <p>This is where teachers would generate and view reports. Filters for class, student, date range, and export options (CSV, PDF) would be available.</p>
+            <div class="form-group">
+                <label for="report-class">Select Class:</label>
+                <select id="report-class">
+                    <option>CS101 - Intro to CS</option>
+                    <option>MATH202 - Calculus II</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="report-date-range">Date Range:</label>
+                <input type="date" id="report-start-date"> to <input type="date" id="report-end-date">
+            </div>
+            <button onclick="alert('Mock: Generating report...')">Generate Report</button>
+            <button class="secondary" onclick="alert('Mock: Exporting as CSV...')">Export as CSV</button>
+        </div>
+        
+        <!-- Student Attendance History View (Placeholder) -->
+        <div id="student-attendance-history-view" class="view">
+            <h1>My Attendance History</h1>
+            <p>This page would display a detailed list of the student's attendance records for all their classes, filterable by class and date.</p>
+            <table>
+                <thead><tr><th>Date</th><th>Class</th><th>Status</th><th>Notes</th></tr></thead>
+                <tbody>
+                    <tr><td>2023-10-25</td><td>CS101</td><td class="status-present">Present</td><td>Self-marked</td></tr>
+                    <tr><td>2023-10-24</td><td>CS101</td><td class="status-present">Present</td><td></td></tr>
+                    <tr><td>2023-10-23</td><td>MATH202</td><td class="status-absent">Absent</td><td></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <script>
+        let currentUser = null; // { type: 'teacher'/'student', name: '', email: '', id: '' }
+        let currentView = 'home-view';
+
+        // Mock data (in a real app, this comes from a server/database)
+        const mockClasses = {
+            "CS101": { 
+                name: "CS101 - Intro to CS", 
+                teacher: "Dr. Ada", 
+                selfAttendanceActive: true, 
+                selfAttendanceMode: 'enabled_15min',
+                students: [
+                    { id: "S-2001", name: "Alice Wonderland", status: "Unknown", notes: "" },
+                    { id: "S-2002", name: "Bob The Builder", status: "Unknown", notes: "" }
+                ]
+            },
+            "MATH202": { 
+                name: "MATH202 - Calculus II", 
+                teacher: "Prof. Euler", 
+                selfAttendanceActive: false,
+                selfAttendanceMode: 'disabled',
+                students: [
+                    { id: "S-2001", name: "Alice Wonderland", status: "Unknown", notes: "" },
+                    { id: "S-2003", name: "Charlie Brown", status: "Unknown", notes: "" }
+                ]
+            }
+        };
+
+        function updateNavLinks() {
+            const navLinksContainer = document.getElementById('nav-links');
+            navLinksContainer.innerHTML = ''; // Clear existing links
+
+            let links = [];
+            if (currentUser) {
+                links = [
+                    { text: 'Home', action: () => navigateTo(currentUser.type === 'teacher' ? 'teacher-dashboard-view' : 'student-dashboard-view') },
+                    { text: 'Profile', action: () => navigateTo('profile-view') },
+                    { text: 'Log Out', action: handleLogout }
+                ];
+                if (currentUser.type === 'teacher') {
+                    links.splice(1, 0, { text: 'My Classes', action: () => navigateTo('teacher-dashboard-view') }); // Simplified: dashboard shows classes
+                    links.splice(2, 0, { text: 'Reports', action: () => navigateTo('teacher-reports-view') });
+                } else { // Student
+                    links.splice(1, 0, { text: 'My Classes', action: () => navigateTo('student-dashboard-view') }); // Simplified: dashboard shows classes
+                    links.splice(2, 0, { text: 'My History', action: () => navigateTo('student-attendance-history-view') });
+                }
+            } else {
+                links = [
+                    { text: 'Home', action: () => navigateTo('home-view') },
+                    { text: 'Log In', action: () => navigateTo('login-view') },
+                    { text: 'Sign Up', action: () => navigateTo('register-choice-view') }
+                ];
+            }
+
+            links.forEach(link => {
+                const li = document.createElement('li');
+                const item = document.createElement('button'); // Using buttons for actions
+                item.textContent = link.text;
+                item.onclick = link.action;
+                if (currentView.startsWith(link.text.toLowerCase().replace(/\s+/g, '-'))) { // Basic active state
+                    item.classList.add('active');
+                }
+                li.appendChild(item);
+                navLinksContainer.appendChild(li);
+            });
+        }
+
+        function navigateTo(viewId) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active-view'));
+            document.getElementById(viewId).classList.add('active-view');
+            currentView = viewId;
+            updateNavLinks(); // Update active link highlight
+
+            // Close mobile menu if open
+            const navUl = document.getElementById('nav-links');
+            if (navUl.classList.contains('active')) {
+                navUl.classList.remove('active');
+            }
+        }
+        
+        function toggleMenu() {
+            document.getElementById('nav-links').classList.toggle('active');
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            // Mock authentication
+            if (email === 'teacher@example.com' && password === 'teacher123') {
+                currentUser = { type: 'teacher', name: 'Dr. Curie', email: email, id: 'T-001' };
+                document.getElementById('teacher-name-display').textContent = currentUser.name;
+                navigateTo('teacher-dashboard-view');
+            } else if (email === 'student@example.com' && password === 'student123') {
+                currentUser = { type: 'student', name: 'Alex Student', email: email, id: 'S-007' };
+                document.getElementById('student-name-display').textContent = currentUser.name;
+                updateStudentDashboardClasses();
+                navigateTo('student-dashboard-view');
+            } else {
+                alert('Invalid credentials. Use mock credentials provided.');
+            }
+            updateNavLinks();
+            loadProfileData();
+        }
+
+        function handleRegister(type) {
+            // In a real app, this would send data to a server
+            let name, email, id;
+            if (type === 'teacher') {
+                name = document.getElementById('teacher-name').value;
+                email = document.getElementById('teacher-email').value;
+                id = document.getElementById('teacher-id').value || 'T-NEW';
+            } else {
+                name = document.getElementById('student-name').value;
+                email = document.getElementById('student-email').value;
+                id = document.getElementById('student-id').value || 'S-NEW';
+            }
+
+            if (!name || !email) {
+                alert("Name and Email are required.");
+                return;
+            }
+
+            currentUser = { type: type, name: name, email: email, id: id };
+            alert(`Mock Registration Successful for ${name} as a ${type}! You are now "logged in".`);
+            
+            if (type === 'teacher') {
+                document.getElementById('teacher-name-display').textContent = currentUser.name;
+                navigateTo('teacher-dashboard-view');
+            } else {
+                document.getElementById('student-name-display').textContent = currentUser.name;
+                updateStudentDashboardClasses();
+                navigateTo('student-dashboard-view');
+            }
+            updateNavLinks();
+            loadProfileData();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            navigateTo('home-view');
+            updateNavLinks();
+        }
+        
+        function loadProfileData() {
+            if(currentUser) {
+                document.getElementById('profile-name').textContent = currentUser.name;
+                document.getElementById('profile-email').textContent = currentUser.email;
+                const idLabel = document.getElementById('profile-role-specific-id-label');
+                const idValue = document.getElementById('profile-role-specific-id');
+                if(currentUser.type === 'teacher') {
+                    idLabel.textContent = "Teacher ID:";
+                } else {
+                    idLabel.textContent = "Student ID:";
+                }
+                idValue.textContent = currentUser.id || "N/A";
+            }
+        }
+
+        function navigateToClass(classCode) {
+            const classData = mockClasses[classCode];
+            if (!classData) {
+                alert("Class not found!");
+                return;
+            }
+            document.getElementById('class-view-name').textContent = `Manage: ${classData.name}`;
+            document.getElementById('class-view-name-sub').textContent = classData.name;
+            
+            const toggle = document.getElementById('self-attendance-toggle');
+            toggle.value = classData.selfAttendanceMode || 'disabled';
+            updateSelfAttendanceStatus(classCode); // Initial status display
+
+            // Populate student table (mock)
+            const studentTableBody = document.getElementById('class-students-table').getElementsByTagName('tbody')[0];
+            studentTableBody.innerHTML = ''; // Clear previous
+            classData.students.forEach(student => {
+                const row = studentTableBody.insertRow();
+                row.insertCell().textContent = student.name;
+                row.insertCell().textContent = student.id;
+                const statusCell = row.insertCell();
+                const statusSelect = document.createElement('select');
+                ['Unknown', 'Present', 'Absent', 'Late', 'Excused'].forEach(s => {
+                    const option = document.createElement('option');
+                    option.value = s.toLowerCase();
+                    option.textContent = s;
+                    if (s.toLowerCase() === (student.status || 'unknown').toLowerCase()) option.selected = true;
+                    statusSelect.appendChild(option);
+                });
+                statusCell.appendChild(statusSelect);
+
+                const notesCell = row.insertCell();
+                const notesInput = document.createElement('input');
+                notesInput.type = 'text';
+                notesInput.value = student.notes || '';
+                notesCell.appendChild(notesInput);
+                
+                const actionCell = row.insertCell();
+                const markBtn = document.createElement('button');
+                markBtn.textContent = "Update";
+                markBtn.onclick = () => alert(`Mock: Updating ${student.name}`);
+                actionCell.appendChild(markBtn);
+            });
+
+            navigateTo('teacher-class-view');
+            // Store current class being viewed for context in other functions
+            document.getElementById('teacher-class-view').dataset.currentClass = classCode;
+        }
+
+        function updateSelfAttendanceStatus(classCodeOverride) {
+            const classCode = classCodeOverride || document.getElementById('teacher-class-view').dataset.currentClass;
+            if (!classCode || !mockClasses[classCode]) return;
+
+            const toggle = document.getElementById('self-attendance-toggle');
+            const statusDisplay = document.getElementById('self-attendance-status-display');
+            const actionBtn = document.getElementById('self-attendance-action-btn');
+            
+            mockClasses[classCode].selfAttendanceMode = toggle.value;
+
+            if (toggle.value === 'disabled') {
+                statusDisplay.textContent = "Disabled";
+                actionBtn.textContent = "Start Self-Attendance";
+                actionBtn.classList.remove('danger');
+                mockClasses[classCode].selfAttendanceActive = false;
+            } else if (toggle.value === 'enabled_15min') {
+                if (mockClasses[classCode].selfAttendanceActive) {
+                    statusDisplay.textContent = "Active (15 min window)";
+                    actionBtn.textContent = "Stop Self-Attendance";
+                    actionBtn.classList.add('danger');
+                } else {
+                    statusDisplay.textContent = "Ready to start (15 min window)";
+                    actionBtn.textContent = "Start Self-Attendance";
+                    actionBtn.classList.remove('danger');
+                }
+            } else if (toggle.value === 'enabled_manual') {
+                 if (mockClasses[classCode].selfAttendanceActive) {
+                    statusDisplay.textContent = "Active (Manual Control)";
+                    actionBtn.textContent = "Stop Self-Attendance";
+                    actionBtn.classList.add('danger');
+                } else {
+                    statusDisplay.textContent = "Ready to start (Manual Control)";
+                    actionBtn.textContent = "Start Self-Attendance";
+                    actionBtn.classList.remove('danger');
+                }
+            }
+            // Update teacher activity log (mock)
+            document.getElementById('teacher-activity-log').textContent = `Self-attendance for ${classCode} set to: ${statusDisplay.textContent} at ${new Date().toLocaleTimeString()}`;
+            updateStudentDashboardClasses(); // Reflect changes on student dashboard
+        }
+
+        function toggleSelfAttendanceAction() {
+            const classCode = document.getElementById('teacher-class-view').dataset.currentClass;
+            if (!classCode || !mockClasses[classCode]) return;
+
+            const toggleValue = document.getElementById('self-attendance-toggle').value;
+            if (toggleValue === 'disabled') {
+                alert("Please select an enabled mode first (e.g., 15 mins or Manual).");
+                return;
+            }
+
+            mockClasses[classCode].selfAttendanceActive = !mockClasses[classCode].selfAttendanceActive;
+            updateSelfAttendanceStatus(classCode); // This will update button text and status
+            
+            // Simulate effect on student side
+             if (mockClasses[classCode].selfAttendanceActive) {
+                alert(`Self-attendance for ${classCode} is now ACTIVE.`);
+            } else {
+                alert(`Self-attendance for ${classCode} is now INACTIVE.`);
+            }
+            updateStudentDashboardClasses();
+        }
+
+        function updateStudentDashboardClasses() {
+            if (!currentUser || currentUser.type !== 'student') return;
+
+            Object.keys(mockClasses).forEach(classCode => {
+                const classData = mockClasses[classCode];
+                const statusEl = document.getElementById(`${classCode.toLowerCase()}-status`);
+                const submitBtnEl = document.getElementById(`${classCode.toLowerCase()}-submit-btn`);
+
+                if (statusEl && submitBtnEl) {
+                    if (classData.selfAttendanceActive) {
+                        statusEl.textContent = "Self-attendance open!";
+                        statusEl.className = 'status-open';
+                        submitBtnEl.style.display = 'inline-block';
+                        submitBtnEl.disabled = false;
+                        submitBtnEl.textContent = "Mark Present";
+
+                    } else {
+                        statusEl.textContent = "Not currently open";
+                        statusEl.className = '';
+                        submitBtnEl.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function submitAttendance(classCode) {
+            if (!currentUser || currentUser.type !== 'student') return;
+            
+            const classData = mockClasses[classCode];
+            if (classData && classData.selfAttendanceActive) {
+                alert(`Mock: You've marked yourself Present for ${classCode} at ${new Date().toLocaleTimeString()}.`);
+                // In a real app, this sends data to server
+                // For mockup, just update the UI
+                const statusEl = document.getElementById(`${classCode.toLowerCase()}-status`);
+                const submitBtnEl = document.getElementById(`${classCode.toLowerCase()}-submit-btn`);
+                if (statusEl) {
+                    statusEl.textContent = "Marked Present";
+                    statusEl.className = 'status-present';
+                }
+                if (submitBtnEl) {
+                    submitBtnEl.disabled = true;
+                    submitBtnEl.textContent = "Submitted";
+                }
+                // Potentially disable self-attendance for this student for this class for this session in mock
+                // classData.selfAttendanceActive = false; // Or track student submissions
+            } else {
+                alert(`Self-attendance for ${classCode} is not currently active.`);
+            }
+        }
+
+
+        // Initial setup
+        window.onload = () => {
+            navigateTo('home-view'); // Start at home view
+            updateNavLinks();
+        };
+
+    </script>
+</body>
+</html>
